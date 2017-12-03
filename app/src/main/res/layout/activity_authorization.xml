@@ -7,8 +7,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_authorization"
-    tools:context="com.valeriipopov.wallety.MainActivity"
+    tools:context="com.valeriipopov.wallety.AuthorizationActivity"
     android:gravity="bottom">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="44sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/roboto"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +39,7 @@
             android:id="@+id/pass_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             tools:text="* * * * *"
             android:textSize="20sp"
             android:textColor="@android:color/white"/>
@@ -119,7 +130,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <Button
             android:id="@+id/button_cancel"

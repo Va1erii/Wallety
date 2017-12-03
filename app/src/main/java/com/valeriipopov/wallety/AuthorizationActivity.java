@@ -1,21 +1,19 @@
 package com.valeriipopov.wallety;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class AuthorizationActivity extends AppCompatActivity {
     private static final String PASSCODE = "12345";
     private char[] mPassChecker = new char[5];
+    private char[] mGhostPassChecker = new char[5];
     private int count = 0;
     private Button mButton1;
     private Button mButton2;
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_authorization);
 
         mButton0 = findViewById(R.id.button_0);
         mButton1 = findViewById(R.id.button_1);
@@ -84,27 +82,30 @@ public class MainActivity extends AppCompatActivity {
                 char ch = button.getText().charAt(0);
                 if (count < PASSCODE.length() - 1) {
                     mPassChecker[count] = ch;
+                    mGhostPassChecker[count] = '*';
+                    mPassCode.setText(mGhostPassChecker,0, mGhostPassChecker.length);
                     count++;
-                    mPassCode.setText(mPassChecker, 0, mPassChecker.length);
                 }
                 else {
                     mPassChecker[count] = ch;
-                    mPassCode.setText(mPassChecker, 0, mPassChecker.length);
-                    if (mPassCode.getText().toString().equals(PASSCODE)){
-                        Toast toast = Toast.makeText(MainActivity.this, "COMPLETE", Toast.LENGTH_LONG);
+                    mGhostPassChecker[count] = '*';
+                    mPassCode.setText(mGhostPassChecker,0, mGhostPassChecker.length);
+                    if (String.valueOf(mPassChecker).equals(PASSCODE)){
+                        Toast toast = Toast.makeText(AuthorizationActivity.this, "COMPLETE", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
                     }
                     else {
-                        Toast toast = Toast.makeText(MainActivity.this, "WRONG", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(AuthorizationActivity.this, "WRONG", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
 
                         for (int i = 0; i < mPassChecker.length; i++) {
                             mPassChecker[i] = ' ';
+                            mGhostPassChecker[i] = ' ';
                         }
                         count = 0;
-                        mPassCode.setText(mPassChecker, 0, mPassChecker.length);
+                        mPassCode.setText(mGhostPassChecker, 0, mPassChecker.length);
                     }
                 }
             }
@@ -117,9 +118,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 for (int i = 0; i < mPassChecker.length; i++) {
                     mPassChecker[i] = ' ';
+                    mGhostPassChecker[i] = ' ';
                 }
                 count = 0;
-                mPassCode.setText(mPassChecker, 0, 5);
+                mPassCode.setText(mGhostPassChecker, 0, 5);
             }
         });
     }
@@ -131,14 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 if (count != 0)
                     count--;
                 mPassChecker[count] = ' ';
-                mPassCode.setText(mPassChecker, 0, 5);
+                mGhostPassChecker[count] = ' ';
+                mPassCode.setText(mGhostPassChecker, 0, 5);
             }
         });
-    }
-
-    public void toString(char [] chars) {
-        for (char ch: chars) {
-            System.out.print(ch);
-        }
     }
 }

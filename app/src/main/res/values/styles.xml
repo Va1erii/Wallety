@@ -14,7 +14,7 @@
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">34sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_margin">6dp</item>
         <item name="android:background">@drawable/ic_button_ring</item>
 
     </style>
