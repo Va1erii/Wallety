@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_main_activity"
     android:scaleType="fitXY"
-    tools:context="com.valeriipopov.wallety.MainActivity">
+    tools:context="com.valeriipopov.wallety.MainActivityPack.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/my_app_bar_layout"
@@ -16,6 +16,7 @@
         android:background="@android:color/transparent">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_main_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent">

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_authorization"
-    tools:context="com.valeriipopov.wallety.AuthorizationActivity"
+    tools:context="com.valeriipopov.wallety.authorizationActivityPack.AuthorizationActivity"
     android:gravity="bottom">
 
     <TextView

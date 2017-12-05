@@ -1,8 +1,10 @@
-package com.valeriipopov.wallety;
+package com.valeriipopov.wallety.MainActivityPack;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+
+import com.valeriipopov.wallety.R;
 
 public class CardViewActivity extends AppCompatActivity {
     CardView mCardView;

@@ -1,4 +1,4 @@
-package com.valeriipopov.wallety;
+package com.valeriipopov.wallety.MainActivityPack;
 
 /**
  * Created by werk on 05/12/2017.
