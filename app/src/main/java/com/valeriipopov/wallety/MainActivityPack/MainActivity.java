@@ -1,28 +1,22 @@
 package com.valeriipopov.wallety.MainActivityPack;
 
 import android.graphics.Color;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.valeriipopov.wallety.R;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
-    private MyRecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private Toolbar mToolbar;
-
-    private List<Item> mItems = Collections.EMPTY_LIST;
+    private ViewPager mViewPager;
+    private MyPagerAdapter mPagerAdapter;
+    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +27,12 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
 
-        mRecyclerView = findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+        mViewPager = findViewById(R.id.pager);
+        mTabLayout = findViewById(R.id.my_tab_layout);
 
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(mItems);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setItems(createItemList(mItems));
-
+        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
+        mViewPager.setAdapter(mPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
     }
 
@@ -52,16 +43,5 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public List <Item> createItemList(List <Item> items) {
-        items = new ArrayList<>();
-        items.add(new Item("Milk", 10.00d, MyRecyclerViewAdapter.TYPE_EXPENSE));
-        items.add(new Item("Water", 5.00d, MyRecyclerViewAdapter.TYPE_EXPENSE));
-        items.add(new Item("Juice", 15.00d, MyRecyclerViewAdapter.TYPE_EXPENSE));
-        items.add(new Item("Butter", 6.00d, MyRecyclerViewAdapter.TYPE_EXPENSE));
-        items.add(new Item("Salary", 10000.00d, MyRecyclerViewAdapter.TYPE_INCOME));
-        items.add(new Item("Rent", 1500.00d, MyRecyclerViewAdapter.TYPE_EXPENSE));
-        items.add(new Item("Phone", 200.00d, MyRecyclerViewAdapter.TYPE_EXPENSE));
-        items.add(new Item("Cinema", 34.00d, MyRecyclerViewAdapter.TYPE_EXPENSE));
-        return items;
-    }
+
 }

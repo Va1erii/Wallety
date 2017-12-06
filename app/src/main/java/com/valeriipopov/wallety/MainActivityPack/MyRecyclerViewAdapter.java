@@ -17,8 +17,6 @@ import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter <MyRecyclerViewAdapter.ItemsViewHolder> {
     private List<Item> mItems = Collections.EMPTY_LIST;
-    public static final String TYPE_EXPENSE = "expense";
-    public static final String TYPE_INCOME = "income";
 
     public static class ItemsViewHolder extends RecyclerView.ViewHolder {
         private TextView mItemNameTextView;
@@ -29,10 +27,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter <MyRecyclerViewA
             mItemNameTextView = itemView.findViewById(R.id.item_name_textview);
             mItemPriceTextView = itemView.findViewById(R.id.item_price_textview);
         }
-    }
-
-    public MyRecyclerViewAdapter(List<Item> dataSet) {
-        mItems = dataSet;
     }
 
     public void setItems(List <Item> items) {

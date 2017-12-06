@@ -18,4 +18,8 @@
     <string name="parameters">parameters</string>
     <string name="change_user"></string>
     <string name="exit">exit</string>
+
+    <string name="tab_expense">expense</string>
+    <string name="tab_income">income</string>
+    <string name="tab_balance">balance</string>
 </resources>
