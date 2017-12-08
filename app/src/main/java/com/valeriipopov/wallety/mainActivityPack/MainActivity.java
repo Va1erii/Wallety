@@ -1,4 +1,4 @@
-package com.valeriipopov.wallety.MainActivityPack;
+package com.valeriipopov.wallety.mainActivityPack;
 
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;

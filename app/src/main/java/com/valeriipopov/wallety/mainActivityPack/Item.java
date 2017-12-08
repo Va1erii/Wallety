@@ -1,10 +1,6 @@
-package com.valeriipopov.wallety.MainActivityPack;
+package com.valeriipopov.wallety.mainActivityPack;
 
 import java.io.Serializable;
-
-/**
- * Created by werk on 05/12/2017.
- */
 
 public class Item implements Serializable {
     public static final String TYPE_EXPENSE = "expense";

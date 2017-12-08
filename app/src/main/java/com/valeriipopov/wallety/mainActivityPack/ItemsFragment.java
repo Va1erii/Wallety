@@ -1,4 +1,4 @@
-package com.valeriipopov.wallety.MainActivityPack;
+package com.valeriipopov.wallety.mainActivityPack;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
-import static com.valeriipopov.wallety.MainActivityPack.Item.*;
+import static com.valeriipopov.wallety.mainActivityPack.Item.*;
 
 public class ItemsFragment extends Fragment {
 

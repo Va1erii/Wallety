@@ -1,4 +1,4 @@
-package com.valeriipopov.wallety.MainActivityPack;
+package com.valeriipopov.wallety.mainActivityPack;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

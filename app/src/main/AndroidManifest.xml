@@ -10,14 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".authorizationActivityPack.AuthorizationActivity"/>
-        <activity android:name=".MainActivityPack.MainActivity">
+        <activity android:name=".mainActivityPack.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivityPack.CardViewActivity">
+        <activity android:name=".mainActivityPack.CardViewActivity">
+        </activity>
+        <activity android:name=".AddActivity">
         </activity>
     </application>
 
