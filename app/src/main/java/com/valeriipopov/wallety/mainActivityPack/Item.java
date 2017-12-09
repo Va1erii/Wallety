@@ -10,6 +10,7 @@ public class Item implements Serializable {
     private String mName;
     private double mPrice;
     private String mType;
+    private int mId;
 
     public Item (String name, double price, String type) {
         mName = name;
@@ -23,5 +24,9 @@ public class Item implements Serializable {
 
     public double getPrice() {
         return mPrice;
+    }
+
+    public int getId() {
+        return mId;
     }
 }

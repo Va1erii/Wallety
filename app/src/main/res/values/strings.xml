@@ -22,4 +22,7 @@
     <string name="tab_expense">expense</string>
     <string name="tab_income">income</string>
     <string name="tab_balance">balance</string>
+    <string name="hint_item_name">Item name</string>
+    <string name="hint_item_price">1000 $</string>
+    <string name="toast_isEmpty">The item name or item price cannot be empty</string>
 </resources>

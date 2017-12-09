@@ -10,7 +10,7 @@ import com.valeriipopov.wallety.R;
 import static com.valeriipopov.wallety.mainActivityPack.Item.*;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
-    public static final int NUM_ITEMS = 2;
+    public static final int NUM_ITEMS = 3;
     private Resources mResources;
 
     public MyPagerAdapter(FragmentManager fm, Resources resources) {
@@ -27,10 +27,10 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
             case 1: {
                 return ItemsFragment.createItemFragment(TYPE_INCOME);
             }
-//            case 2: {
-//                BalanceFragment tabBalance = new BalanceFragment();
-//                return tabBalance;
-//            }
+            case 2: {
+                BalanceFragment tabBalance = new BalanceFragment();
+                return tabBalance;
+            }
             default:
                 return null;
         }

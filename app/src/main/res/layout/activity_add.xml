@@ -1,10 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.valeriipopov.wallety.AddActivity">
+    android:background="@drawable/bg_main_activity"
+    android:scaleType="fitXY"
+    tools:context="com.valeriipopov.wallety.mainActivityPack.MainActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout_add_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAppBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_add_activity"
+            tools:title="Add item"
+            app:titleTextColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar_layout_add_activity">
+
+
+        <EditText
+            android:id="@+id/item_name_edit_text"
+            android:maxLines="2"
+            android:inputType="text"
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            style="@style/TextAddActivity"
+            android:textAlignment="textStart"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_item_name"
+            android:textColorHint="@color/colorCardView"/>
+
+        <EditText
+            android:id="@+id/item_price_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            style="@style/TextAddActivity"
+            android:hint="@string/hint_item_price"
+            android:textColorHint="@color/colorCardView"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:maxLines="1"/>
+
+        <ImageButton
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_add_circle_outline_white_24dp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
