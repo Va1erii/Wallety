@@ -1,4 +1,4 @@
-package com.valeriipopov.wallety.mainActivityPack;
+package com.valeriipopov.wallety;
 
 import java.io.Serializable;
 
@@ -20,6 +20,10 @@ public class Item implements Serializable {
 
     public String getName() {
         return mName;
+    }
+
+    public String getType() {
+        return mType;
     }
 
     public double getPrice() {

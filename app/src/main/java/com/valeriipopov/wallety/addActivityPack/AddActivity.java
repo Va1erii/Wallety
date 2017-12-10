@@ -1,7 +1,6 @@
 package com.valeriipopov.wallety.addActivityPack;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.valeriipopov.wallety.R;
-import com.valeriipopov.wallety.mainActivityPack.Item;
+import com.valeriipopov.wallety.Item;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -20,7 +19,6 @@ public class AddActivity extends AppCompatActivity {
     public static final int RC_ADD_ITEM = 333;
     public static final String RESULT_ITEM = "result_item";
 
-    private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
     private EditText mItemName;
     private EditText mItemPrice;

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.valeriipopov.wallety.Item;
 import com.valeriipopov.wallety.R;
 
 import java.util.Collections;

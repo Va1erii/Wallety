@@ -1,4 +1,0 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
-CREATE TABLE items (_id INTEGER, name TEXT, price INTEGER, type TEXT);
-COMMIT;

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.valeriipopov.wallety.R;
 
-import static com.valeriipopov.wallety.mainActivityPack.Item.*;
+import static com.valeriipopov.wallety.Item.*;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     public static final int NUM_ITEMS = 3;

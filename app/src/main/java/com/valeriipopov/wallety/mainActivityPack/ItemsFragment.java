@@ -1,25 +1,31 @@
 package com.valeriipopov.wallety.mainActivityPack;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.valeriipopov.wallety.Item;
 import com.valeriipopov.wallety.addActivityPack.AddActivity;
 import com.valeriipopov.wallety.R;
+import com.valeriipopov.wallety.data.DataItemsContract.*;
+import com.valeriipopov.wallety.data.DataItemsDbHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.valeriipopov.wallety.addActivityPack.AddActivity.*;
-import static com.valeriipopov.wallety.mainActivityPack.Item.*;
+import static com.valeriipopov.wallety.Item.*;
 
 public class ItemsFragment extends Fragment {
 
@@ -29,7 +35,10 @@ public class ItemsFragment extends Fragment {
     private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton mFloatingActionButton;
+    private SwipeRefreshLayout mRefreshLayout;
     private List <Item> mItemsList = new ArrayList<>();
+    private DataItemsDbHelper mDataItemsDbHelper;
+    private SQLiteDatabase mDatabase;
 
 
     public static ItemsFragment createItemFragment(String type) {
@@ -68,12 +77,24 @@ public class ItemsFragment extends Fragment {
                 startActivityForResult(intent, RC_ADD_ITEM);
             }
         });
+
         mRecyclerView = view.findViewById(R.id.my_recycler_view);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
-        createItemList();
+
+        mRefreshLayout = view.findViewById(R.id.refresh);
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadItems();
+                mRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        mDataItemsDbHelper = new DataItemsDbHelper(getContext());
+        loadItems();
         mAdapter.setItems(mItemsList);
     }
 
@@ -83,18 +104,59 @@ public class ItemsFragment extends Fragment {
         if (requestCode == RC_ADD_ITEM && resultCode == RESULT_OK) {
             Item mItem = (Item) data.getSerializableExtra(RESULT_ITEM);
             mItemsList.add(mItem);
+            addNewItem(mItem);
             mAdapter.notifyDataSetChanged();
         }
     }
 
-    public void createItemList() {
-        mItemsList.add(new Item("Milk", 10.00d, TYPE_EXPENSE));
-        mItemsList.add(new Item("Water", 5.00d, TYPE_EXPENSE));
-        mItemsList.add(new Item("Juice", 15.00d, TYPE_INCOME));
-        mItemsList.add(new Item("Butter", 6.00d, TYPE_EXPENSE));
-        mItemsList.add(new Item("Salary", 10000.00d, TYPE_INCOME));
-        mItemsList.add(new Item("Rent", 1500.00d, TYPE_EXPENSE));
-        mItemsList.add(new Item("Phone", 200.00d, TYPE_INCOME));
-        mItemsList.add(new Item("Cinema", 34.00d, TYPE_EXPENSE));
+    private void addNewItem(Item item) {
+        mDatabase = mDataItemsDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ItemsData.COLUMN_NAME, item.getName());
+        values.put(ItemsData.COLUMN_PRICE, item.getPrice());
+        values.put(ItemsData.COLUMN_TYPE, item.getType());
+
+        long newRowID = mDatabase.insert(ItemsData.TABLE_NAME, null, values);
+
+    }
+
+    private void loadItems () {
+        mDatabase = mDataItemsDbHelper.getReadableDatabase();
+        String [] projection = {
+                ItemsData._ID,
+                ItemsData.COLUMN_NAME,
+                ItemsData.COLUMN_PRICE,
+                ItemsData.COLUMN_TYPE
+        };
+
+        String selection = ItemsData.COLUMN_TYPE + "=?";
+        String [] selectionArgs = {mType};
+
+        Cursor cursor = mDatabase.query(
+                ItemsData.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        try {
+            int idColumnIndex = cursor.getColumnIndex(ItemsData._ID);
+            int nameColumnIndex = cursor.getColumnIndex(ItemsData.COLUMN_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(ItemsData.COLUMN_PRICE);
+            int typeColumnIndex = cursor.getColumnIndex(ItemsData.COLUMN_TYPE);
+            mItemsList.clear();
+            while (cursor.moveToNext()) {
+                int currentID = cursor.getInt(idColumnIndex);
+                String currentName = cursor.getString(nameColumnIndex);
+                int currentPrice = cursor.getInt(priceColumnIndex);
+                String currentType = cursor.getString(typeColumnIndex);
+                mItemsList.add(new Item(currentName, currentPrice, currentType));
+            }
+        } finally {
+            cursor.close();
+        }
     }
 }
