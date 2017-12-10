@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Wallety</string>
+    <string name="welcome">Welcome to</string>
+    <string name="pass_code">Create your PassCode</string>
+    <string name="pass_code_wrong">The PassCode cannot be empty and less than 5 number</string>
 
     <string name="button_cancel">cancel</string>
     <string name="button_delete">delete</string>
@@ -18,7 +21,6 @@
     <string name="parameters">parameters</string>
     <string name="change_user"></string>
     <string name="exit">exit</string>
-    
 
 
     <string name="tab_expense">expense</string>
@@ -27,4 +29,5 @@
     <string name="hint_item_name">Item name</string>
     <string name="hint_item_price">1000 $</string>
     <string name="toast_isEmpty">The item name or item price cannot be empty</string>
+    <string name="condfirm">condfirm</string>
 </resources>

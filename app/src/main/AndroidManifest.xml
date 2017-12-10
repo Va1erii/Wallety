@@ -19,8 +19,11 @@
         </activity>
         <activity android:name=".mainActivityPack.CardViewActivity">
         </activity>
-        <activity android:name=".addActivityPack.AddActivity"
+        <activity
+            android:name=".addActivityPack.AddActivity"
             android:parentActivityName=".mainActivityPack.MainActivity">
+        </activity>
+        <activity android:name=".authorizationActivityPack.NewUserActivity">
         </activity>
     </application>
 

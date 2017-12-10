@@ -38,7 +38,7 @@ public class ItemsFragment extends Fragment {
     private SwipeRefreshLayout mRefreshLayout;
     private List <Item> mItemsList = new ArrayList<>();
     private DataItemsDbHelper mDataItemsDbHelper;
-    private SQLiteDatabase mDatabase;
+    private SQLiteDatabase mDatabaseItems;
 
 
     public static ItemsFragment createItemFragment(String type) {
@@ -110,19 +110,19 @@ public class ItemsFragment extends Fragment {
     }
 
     private void addNewItem(Item item) {
-        mDatabase = mDataItemsDbHelper.getWritableDatabase();
+        mDatabaseItems = mDataItemsDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(ItemsData.COLUMN_NAME, item.getName());
         values.put(ItemsData.COLUMN_PRICE, item.getPrice());
         values.put(ItemsData.COLUMN_TYPE, item.getType());
 
-        long newRowID = mDatabase.insert(ItemsData.TABLE_NAME, null, values);
+        long newRowID = mDatabaseItems.insert(ItemsData.TABLE_NAME, null, values);
 
     }
 
     private void loadItems () {
-        mDatabase = mDataItemsDbHelper.getReadableDatabase();
+        mDatabaseItems = mDataItemsDbHelper.getReadableDatabase();
         String [] projection = {
                 ItemsData._ID,
                 ItemsData.COLUMN_NAME,
@@ -133,7 +133,7 @@ public class ItemsFragment extends Fragment {
         String selection = ItemsData.COLUMN_TYPE + "=?";
         String [] selectionArgs = {mType};
 
-        Cursor cursor = mDatabase.query(
+        Cursor cursor = mDatabaseItems.query(
                 ItemsData.TABLE_NAME,
                 projection,
                 selection,

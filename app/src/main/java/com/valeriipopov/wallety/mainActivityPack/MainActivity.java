@@ -1,7 +1,7 @@
 package com.valeriipopov.wallety.mainActivityPack;
 
+import android.content.Intent;
 import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
@@ -11,10 +11,19 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.Toast;
 
+import com.valeriipopov.wallety.Item;
 import com.valeriipopov.wallety.R;
+import com.valeriipopov.wallety.authorizationActivityPack.AuthorizationActivity;
+import com.valeriipopov.wallety.authorizationActivityPack.NewUserActivity;
 import com.valeriipopov.wallety.data.DataItemsContract;
 import com.valeriipopov.wallety.data.DataItemsDbHelper;
+import com.valeriipopov.wallety.data.DataUserContract;
+import com.valeriipopov.wallety.data.DataUserDbHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private MyPagerAdapter mPagerAdapter;
     private TabLayout mTabLayout;
+    private DataUserDbHelper mDataUserDbHelper;
+    private SQLiteDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +46,66 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.pager);
         mTabLayout = findViewById(R.id.my_tab_layout);
 
-        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
-        mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mDataUserDbHelper = new DataUserDbHelper(getApplicationContext());
+
+        if (!checkPasscode()) {
+            startActivity(new Intent(this, NewUserActivity.class));
+        }
+        else {
+            startActivity(new Intent(this, AuthorizationActivity.class));
+        }
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkPasscode()) {
+            mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
+            mViewPager.setAdapter(mPagerAdapter);
+            mTabLayout.setupWithViewPager(mViewPager);
+        }
+        else {
+            startActivity(new Intent(this, NewUserActivity.class));
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    private boolean checkPasscode () {
+        mDatabase = mDataUserDbHelper.getReadableDatabase();
+        String [] projection = {
+                DataUserContract.UserData.COLUMN_PASSCODE,
+        };
+
+        Cursor cursor = mDatabase.query(
+                DataUserContract.UserData.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        try {
+            int mPassCode = 0;
+            int columnIndexPassCode = cursor.getColumnIndex(DataUserContract.UserData.COLUMN_PASSCODE);
+            while (cursor.moveToNext()){
+                mPassCode = cursor.getInt(columnIndexPassCode);
+            }
+            Toast.makeText(this, Integer.toString(mPassCode), Toast.LENGTH_SHORT).show();
+            if (mPassCode != 0) {
+                return true;
+            }
+            else
+                return false;
+        } finally {
+            cursor.close();
+        }
     }
 }

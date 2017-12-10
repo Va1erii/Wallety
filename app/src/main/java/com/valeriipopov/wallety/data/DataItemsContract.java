@@ -14,9 +14,5 @@ public class DataItemsContract {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_TYPE = "type";
-
-        public static final int TYPE_EXPENSE = -1;
-        public static final int TYPE_INCOME = 1;
-
     }
 }
