@@ -18,9 +18,9 @@
     <string name="button_9">9</string>
     <string name="button_0">0</string>
 
-    <string name="parameters">parameters</string>
-    <string name="change_user"></string>
-    <string name="exit">exit</string>
+    <string name="parameters">Parameters</string>
+    <string name="change_user">Change passcode</string>
+    <string name="exit">Exit</string>
 
 
     <string name="tab_expense">expense</string>
@@ -29,5 +29,5 @@
     <string name="hint_item_name">Item name</string>
     <string name="hint_item_price">1000 $</string>
     <string name="toast_isEmpty">The item name or item price cannot be empty</string>
-    <string name="condfirm">condfirm</string>
+    <string name="confirm">confirm</string>
 </resources>

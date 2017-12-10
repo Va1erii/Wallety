@@ -62,7 +62,7 @@
             android:background="@color/colorCardViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/condfirm"
+            android:text="@string/confirm"
             android:textColor="@android:color/white"/>
 
     </LinearLayout>

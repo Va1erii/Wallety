@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".authorizationActivityPack.AuthorizationActivity"/>
+
+        <activity android:name=".authorizationActivityPack.AuthorizationActivity"
+                  android:noHistory="true"
+                  android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+
         <activity android:name=".mainActivityPack.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -17,14 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".mainActivityPack.CardViewActivity">
         </activity>
+
         <activity
             android:name=".addActivityPack.AddActivity"
             android:parentActivityName=".mainActivityPack.MainActivity">
         </activity>
-        <activity android:name=".authorizationActivityPack.NewUserActivity">
+
+        <activity android:name=".authorizationActivityPack.NewUserActivity"
+            android:noHistory="true">
+
         </activity>
+
     </application>
 
 </manifest>

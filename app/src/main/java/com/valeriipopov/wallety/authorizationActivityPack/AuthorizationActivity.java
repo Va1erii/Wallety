@@ -1,22 +1,35 @@
 package com.valeriipopov.wallety.authorizationActivityPack;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.valeriipopov.wallety.R;
+import com.valeriipopov.wallety.data.DataUserContract;
+import com.valeriipopov.wallety.data.DataUserDbHelper;
+import com.valeriipopov.wallety.mainActivityPack.MainActivity;
 
 import java.util.ArrayList;
 
 public class AuthorizationActivity extends AppCompatActivity {
-    private static final String PASSCODE = "12345";
-    private char[] mPassChecker = new char[5];
-    private char[] mGhostPassChecker = new char[5];
+    public static final String PASSCODE_WRONG = "wrong";
+
+    private char[] mUserCode = new char[5];
     private int count = 0;
+    private String mUserPassCode ;
+    private EditText mPassCode;
+    private DataUserDbHelper mDataUserDbHelper;
+    private SQLiteDatabase mDatabase;
+
     private Button mButton1;
     private Button mButton2;
     private Button mButton3;
@@ -30,8 +43,6 @@ public class AuthorizationActivity extends AppCompatActivity {
     private Button mButtonDelete;
     private Button mButtonCancel;
     private ArrayList <Button> mButtonsList;
-
-    private TextView mPassCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +71,13 @@ public class AuthorizationActivity extends AppCompatActivity {
         mButtonsList.add(mButton7);
         mButtonsList.add(mButton8);
         mButtonsList.add(mButton9);
-        addClickListener(mButtonsList);
+        addClickListener();
 
         mPassCode = findViewById(R.id.pass_code);
+        mPassCode.setFocusableInTouchMode(false);
+
+        mDataUserDbHelper = new DataUserDbHelper(getApplicationContext());
+        mUserPassCode = getUserPassCode();
 
         mButtonDelete = findViewById(R.id.button_delete);
         setClickDeleteButtonListener(mButtonDelete);
@@ -71,7 +86,16 @@ public class AuthorizationActivity extends AppCompatActivity {
         setClickCancelButtonListener(mButtonCancel);
     }
 
-    public void addClickListener(ArrayList <Button> buttons) {
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
+
+    public void addClickListener() {
         for (Button btn: mButtonsList) {
             clickButton (btn);
         }
@@ -81,33 +105,28 @@ public class AuthorizationActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                char ch = button.getText().charAt(0);
-                if (count < PASSCODE.length() - 1) {
-                    mPassChecker[count] = ch;
-                    mGhostPassChecker[count] = '*';
-                    mPassCode.setText(mGhostPassChecker,0, mGhostPassChecker.length);
+                if (count < 4) {
+                    char ch = button.getText().charAt(0);
+                    mUserCode[count] = ch;
+                    mPassCode.setText(mUserCode, 0, count+1);
                     count++;
                 }
                 else {
-                    mPassChecker[count] = ch;
-                    mGhostPassChecker[count] = '*';
-                    mPassCode.setText(mGhostPassChecker,0, mGhostPassChecker.length);
-                    if (String.valueOf(mPassChecker).equals(PASSCODE)){
-                        Toast toast = Toast.makeText(AuthorizationActivity.this, "COMPLETE", Toast.LENGTH_LONG);
+                    char ch = button.getText().charAt(0);
+                    mUserCode[count] = ch;
+                    mPassCode.setText(mUserCode, 0, count+1);
+
+                    if (mUserPassCode.equals(String.copyValueOf(mUserCode))) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "COMPLETE", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
+                        AuthorizationActivity.this.finish();
                     }
                     else {
-                        Toast toast = Toast.makeText(AuthorizationActivity.this, "WRONG", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getApplicationContext(), "WRONG", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
-
-                        for (int i = 0; i < mPassChecker.length; i++) {
-                            mPassChecker[i] = ' ';
-                            mGhostPassChecker[i] = ' ';
-                        }
-                        count = 0;
-                        mPassCode.setText(mGhostPassChecker, 0, mPassChecker.length);
+                        mButtonCancel.callOnClick();
                     }
                 }
             }
@@ -118,12 +137,8 @@ public class AuthorizationActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = 0; i < mPassChecker.length; i++) {
-                    mPassChecker[i] = ' ';
-                    mGhostPassChecker[i] = ' ';
-                }
-                count = 0;
-                mPassCode.setText(mGhostPassChecker, 0, 5);
+            count = 0;
+            mPassCode.setText("");
             }
         });
     }
@@ -132,12 +147,36 @@ public class AuthorizationActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (count != 0)
-                    count--;
-                mPassChecker[count] = ' ';
-                mGhostPassChecker[count] = ' ';
-                mPassCode.setText(mGhostPassChecker, 0, 5);
+                count--;
+                mPassCode.setText(mUserCode, 0, count);
             }
         });
+    }
+
+    private String getUserPassCode () {
+        mDatabase = mDataUserDbHelper.getReadableDatabase();
+        String [] projection = {
+                DataUserContract.UserData.COLUMN_PASSCODE,
+        };
+
+        Cursor cursor = mDatabase.query(
+                DataUserContract.UserData.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        try {
+            String mPassCode = PASSCODE_WRONG;
+            int columnIndexPassCode = cursor.getColumnIndex(DataUserContract.UserData.COLUMN_PASSCODE);
+            while (cursor.moveToNext()){
+                mPassCode = cursor.getString(columnIndexPassCode);
+            }
+            return mPassCode;
+        } finally {
+            cursor.close();
+        }
     }
 }

@@ -17,12 +17,12 @@ public class DataUserDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(SQL_CREATE_ITEMS_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_USER_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL(SQL_DELETE_ITEMS_TABLE);
+        sqLiteDatabase.execSQL(SQL_DELETE_USER_TABLE);
         onCreate(sqLiteDatabase);
     }
 
@@ -31,9 +31,9 @@ public class DataUserDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public static final String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + UserData.TABLE_NAME + " ("
+    public static final String SQL_CREATE_USER_TABLE = "CREATE TABLE " + UserData.TABLE_NAME + " ("
             + UserData._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + UserData.COLUMN_PASSCODE + " INTEGER NOT NULL)";
+            + UserData.COLUMN_PASSCODE + " TEXT NOT NULL)";
 
-    public static final String SQL_DELETE_ITEMS_TABLE = "DROP TABLE IF EXISTS " + UserData.TABLE_NAME;
+    public static final String SQL_DELETE_USER_TABLE = "DROP TABLE IF EXISTS " + UserData.TABLE_NAME;
 }

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.valeriipopov.wallety.Item;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDataUserDbHelper = new DataUserDbHelper(getApplicationContext());
 
-        if (!checkPasscode()) {
+        if (mPasscode().equals("wrong")) {
             startActivity(new Intent(this, NewUserActivity.class));
         }
         else {
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (checkPasscode()) {
+        if (!mPasscode().equals("wrong")) {
             mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
             mViewPager.setAdapter(mPagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
@@ -77,7 +78,23 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean checkPasscode () {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.change_user:
+                mDatabase.execSQL(DataUserDbHelper.SQL_DELETE_USER_TABLE);
+                mDatabase.execSQL(DataUserDbHelper.SQL_CREATE_USER_TABLE);
+                startActivity(new Intent(this, NewUserActivity.class));
+                return true;
+            case R.id.exit:
+                MainActivity.this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private String mPasscode () {
         mDatabase = mDataUserDbHelper.getReadableDatabase();
         String [] projection = {
                 DataUserContract.UserData.COLUMN_PASSCODE,
@@ -93,17 +110,16 @@ public class MainActivity extends AppCompatActivity {
                 null
         );
         try {
-            int mPassCode = 0;
+            String mPassCode = "wrong";
             int columnIndexPassCode = cursor.getColumnIndex(DataUserContract.UserData.COLUMN_PASSCODE);
             while (cursor.moveToNext()){
-                mPassCode = cursor.getInt(columnIndexPassCode);
+                mPassCode = cursor.getString(columnIndexPassCode);
             }
-            Toast.makeText(this, Integer.toString(mPassCode), Toast.LENGTH_SHORT).show();
-            if (mPassCode != 0) {
-                return true;
+            if (mPassCode.length() != 0) {
+                return mPassCode;
             }
             else
-                return false;
+                return mPassCode;
         } finally {
             cursor.close();
         }

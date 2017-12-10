@@ -35,10 +35,11 @@
             android:textSize="15sp"
             android:textColor="@android:color/white"/>
 
-        <TextView
+        <EditText
             android:id="@+id/pass_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="numberPassword"
             android:padding="5dp"
             tools:text="* * * * *"
             android:textSize="20sp"

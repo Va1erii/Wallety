@@ -1,11 +1,13 @@
 package com.valeriipopov.wallety.authorizationActivityPack;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -51,11 +53,21 @@ public class NewUserActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
+
     private void addNewPasscode(EditText editText) {
         mDatabase = mDataUserDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DataUserContract.UserData.COLUMN_PASSCODE, Integer.parseInt(editText.getText().toString()));
+        values.put(DataUserContract.UserData.COLUMN_PASSCODE, editText.getText().toString());
 
         long newRowID = mDatabase.insert(DataUserContract.UserData.TABLE_NAME, null, values);
 
