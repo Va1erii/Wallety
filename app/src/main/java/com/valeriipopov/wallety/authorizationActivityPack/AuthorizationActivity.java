@@ -7,16 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.valeriipopov.wallety.R;
-import com.valeriipopov.wallety.data.DataUserContract;
-import com.valeriipopov.wallety.data.DataUserDbHelper;
-import com.valeriipopov.wallety.mainActivityPack.MainActivity;
+import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
 import java.util.ArrayList;
 
@@ -27,8 +23,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     private int count = 0;
     private String mUserPassCode ;
     private EditText mPassCode;
-    private DataUserDbHelper mDataUserDbHelper;
-    private SQLiteDatabase mDatabase;
+    private DataBaseDbHelper mDataBaseDbHelper;
 
     private Button mButton1;
     private Button mButton2;
@@ -76,8 +71,8 @@ public class AuthorizationActivity extends AppCompatActivity {
         mPassCode = findViewById(R.id.pass_code);
         mPassCode.setFocusableInTouchMode(false);
 
-        mDataUserDbHelper = new DataUserDbHelper(getApplicationContext());
-        mUserPassCode = getUserPassCode();
+        mDataBaseDbHelper = new DataBaseDbHelper(getApplicationContext());
+        mUserPassCode = mDataBaseDbHelper.getUserPassCode();
 
         mButtonDelete = findViewById(R.id.button_delete);
         setClickDeleteButtonListener(mButtonDelete);
@@ -153,30 +148,5 @@ public class AuthorizationActivity extends AppCompatActivity {
         });
     }
 
-    private String getUserPassCode () {
-        mDatabase = mDataUserDbHelper.getReadableDatabase();
-        String [] projection = {
-                DataUserContract.UserData.COLUMN_PASSCODE,
-        };
 
-        Cursor cursor = mDatabase.query(
-                DataUserContract.UserData.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        try {
-            String mPassCode = PASSCODE_WRONG;
-            int columnIndexPassCode = cursor.getColumnIndex(DataUserContract.UserData.COLUMN_PASSCODE);
-            while (cursor.moveToNext()){
-                mPassCode = cursor.getString(columnIndexPassCode);
-            }
-            return mPassCode;
-        } finally {
-            cursor.close();
-        }
-    }
 }

@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import com.valeriipopov.wallety.Item;
 import com.valeriipopov.wallety.addActivityPack.AddActivity;
 import com.valeriipopov.wallety.R;
-import com.valeriipopov.wallety.data.DataItemsContract.*;
-import com.valeriipopov.wallety.data.DataItemsDbHelper;
+import com.valeriipopov.wallety.data.DataBaseContract.*;
+import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +37,7 @@ public class ItemsFragment extends Fragment {
     private FloatingActionButton mFloatingActionButton;
     private SwipeRefreshLayout mRefreshLayout;
     private List <Item> mItemsList = new ArrayList<>();
-    private DataItemsDbHelper mDataItemsDbHelper;
-    private SQLiteDatabase mDatabaseItems;
+    private DataBaseDbHelper mDataBaseDbHelper;
 
 
     public static ItemsFragment createItemFragment(String type) {
@@ -88,13 +87,13 @@ public class ItemsFragment extends Fragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadItems();
+                mDataBaseDbHelper.loadItems(mType, mItemsList);
                 mRefreshLayout.setRefreshing(false);
             }
         });
 
-        mDataItemsDbHelper = new DataItemsDbHelper(getContext());
-        loadItems();
+        mDataBaseDbHelper = new DataBaseDbHelper(getContext());
+        mDataBaseDbHelper.loadItems(mType, mItemsList);
         mAdapter.setItems(mItemsList);
     }
 
@@ -104,59 +103,10 @@ public class ItemsFragment extends Fragment {
         if (requestCode == RC_ADD_ITEM && resultCode == RESULT_OK) {
             Item mItem = (Item) data.getSerializableExtra(RESULT_ITEM);
             mItemsList.add(mItem);
-            addNewItem(mItem);
+            mDataBaseDbHelper.addNewItem(mItem);
             mAdapter.notifyDataSetChanged();
         }
     }
 
-    private void addNewItem(Item item) {
-        mDatabaseItems = mDataItemsDbHelper.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(ItemsData.COLUMN_NAME, item.getName());
-        values.put(ItemsData.COLUMN_PRICE, item.getPrice());
-        values.put(ItemsData.COLUMN_TYPE, item.getType());
-
-        long newRowID = mDatabaseItems.insert(ItemsData.TABLE_NAME, null, values);
-
-    }
-
-    private void loadItems () {
-        mDatabaseItems = mDataItemsDbHelper.getReadableDatabase();
-        String [] projection = {
-                ItemsData._ID,
-                ItemsData.COLUMN_NAME,
-                ItemsData.COLUMN_PRICE,
-                ItemsData.COLUMN_TYPE
-        };
-
-        String selection = ItemsData.COLUMN_TYPE + "=?";
-        String [] selectionArgs = {mType};
-
-        Cursor cursor = mDatabaseItems.query(
-                ItemsData.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        try {
-            int idColumnIndex = cursor.getColumnIndex(ItemsData._ID);
-            int nameColumnIndex = cursor.getColumnIndex(ItemsData.COLUMN_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(ItemsData.COLUMN_PRICE);
-            int typeColumnIndex = cursor.getColumnIndex(ItemsData.COLUMN_TYPE);
-            mItemsList.clear();
-            while (cursor.moveToNext()) {
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                int currentPrice = cursor.getInt(priceColumnIndex);
-                String currentType = cursor.getString(typeColumnIndex);
-                mItemsList.add(new Item(currentName, currentPrice, currentType));
-            }
-        } finally {
-            cursor.close();
-        }
-    }
 }

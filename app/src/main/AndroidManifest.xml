@@ -27,8 +27,7 @@
         </activity>
 
         <activity
-            android:name=".addActivityPack.AddActivity"
-            android:parentActivityName=".mainActivityPack.MainActivity">
+            android:name=".addActivityPack.AddActivity">
         </activity>
 
         <activity android:name=".authorizationActivityPack.NewUserActivity"

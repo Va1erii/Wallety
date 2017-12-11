@@ -12,19 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.valeriipopov.wallety.Item;
 import com.valeriipopov.wallety.R;
 import com.valeriipopov.wallety.authorizationActivityPack.AuthorizationActivity;
 import com.valeriipopov.wallety.authorizationActivityPack.NewUserActivity;
-import com.valeriipopov.wallety.data.DataItemsContract;
-import com.valeriipopov.wallety.data.DataItemsDbHelper;
-import com.valeriipopov.wallety.data.DataUserContract;
-import com.valeriipopov.wallety.data.DataUserDbHelper;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private MyPagerAdapter mPagerAdapter;
     private TabLayout mTabLayout;
-    private DataUserDbHelper mDataUserDbHelper;
-    private SQLiteDatabase mDatabase;
+    private DataBaseDbHelper mDataBaseDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.pager);
         mTabLayout = findViewById(R.id.my_tab_layout);
 
-        mDataUserDbHelper = new DataUserDbHelper(getApplicationContext());
+        mDataBaseDbHelper = new DataBaseDbHelper(getApplicationContext());
 
-        if (mPasscode().equals("wrong")) {
+        if (mDataBaseDbHelper.getUserPassCode().equals("")) {
             startActivity(new Intent(this, NewUserActivity.class));
         }
         else {
@@ -61,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!mPasscode().equals("wrong")) {
+        if (!mDataBaseDbHelper.getUserPassCode().equals("")) {
             mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
             mViewPager.setAdapter(mPagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
@@ -82,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.change_user:
-                mDatabase.execSQL(DataUserDbHelper.SQL_DELETE_USER_TABLE);
-                mDatabase.execSQL(DataUserDbHelper.SQL_CREATE_USER_TABLE);
+                mDataBaseDbHelper.mDataBaseItems.execSQL(mDataBaseDbHelper.SQL_DELETE_USERS_TABLE);
+                mDataBaseDbHelper.mDataBaseItems.execSQL(mDataBaseDbHelper.SQL_CREATE_USERS_TABLE);
                 startActivity(new Intent(this, NewUserActivity.class));
                 return true;
             case R.id.exit:
@@ -91,37 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private String mPasscode () {
-        mDatabase = mDataUserDbHelper.getReadableDatabase();
-        String [] projection = {
-                DataUserContract.UserData.COLUMN_PASSCODE,
-        };
-
-        Cursor cursor = mDatabase.query(
-                DataUserContract.UserData.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        try {
-            String mPassCode = "wrong";
-            int columnIndexPassCode = cursor.getColumnIndex(DataUserContract.UserData.COLUMN_PASSCODE);
-            while (cursor.moveToNext()){
-                mPassCode = cursor.getString(columnIndexPassCode);
-            }
-            if (mPassCode.length() != 0) {
-                return mPassCode;
-            }
-            else
-                return mPassCode;
-        } finally {
-            cursor.close();
         }
     }
 }
