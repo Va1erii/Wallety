@@ -25,8 +25,8 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_add"
-            android:src="@drawable/ic_add_white_24dp"
-            android:backgroundTint="@color/colorStatusBar"
+            app:srcCompat="@drawable/ic_stat_name"
+            app:backgroundTint="@color/colorStatusBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
