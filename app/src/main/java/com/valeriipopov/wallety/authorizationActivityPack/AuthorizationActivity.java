@@ -142,8 +142,10 @@ public class AuthorizationActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count--;
-                mPassCode.setText(mUserCode, 0, count);
+                if (count > 0) {
+                    count--;
+                    mPassCode.setText(mUserCode, 0, count);
+                }
             }
         });
     }

@@ -22,9 +22,9 @@
     <string name="change_user">Change passcode</string>
     <string name="exit">Exit</string>
 
-    <string name="tab_expense">expense</string>
-    <string name="tab_income">income</string>
-    <string name="tab_balance">balance</string>
+    <string name="tab_expense">Expense</string>
+    <string name="tab_income">Income</string>
+    <string name="tab_balance">Balance</string>
     <string name="hint_item_name">Item name</string>
     <string name="hint_item_price">1000 $</string>
     <string name="toast_isEmpty">The item\'s name or item\'s price cannot be empty</string>
@@ -35,7 +35,5 @@
     <string name="negative_button">Cancel</string>
     <string name="title_dialog">Wallety</string>
     <string name="message_remove">Do you want to remove these items?</string>
-    <string name="message_exit">Do you want to exit?</string>
-    <string name="message_change_passcode">Do you want to change passcode?</string>
 
 </resources>
