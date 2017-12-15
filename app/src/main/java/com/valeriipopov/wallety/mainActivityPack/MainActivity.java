@@ -1,8 +1,6 @@
 package com.valeriipopov.wallety.mainActivityPack;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout = findViewById(R.id.my_tab_layout);
 
         mDataBaseDbHelper = new DataBaseDbHelper(getApplicationContext());
-
         if (mDataBaseDbHelper.getUserPassCode().equals("")) {
             startActivity(new Intent(this, NewUserActivity.class));
         }

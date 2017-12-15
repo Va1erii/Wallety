@@ -63,7 +63,6 @@ public class DataBaseDbHelper extends SQLiteOpenHelper {
                 ItemsData.COLUMN_PRICE_ITEMS,
                 ItemsData.COLUMN_TYPE_ITEMS
         };
-
         String selection = ItemsData.COLUMN_TYPE_ITEMS + "=?";
         String [] selectionArgs = {type};
 
@@ -87,7 +86,7 @@ public class DataBaseDbHelper extends SQLiteOpenHelper {
                 String currentName = cursor.getString(nameColumnIndex);
                 int currentPrice = cursor.getInt(priceColumnIndex);
                 String currentType = cursor.getString(typeColumnIndex);
-                itemList.add(new Item(currentName, currentPrice, currentType));
+                itemList.add(new Item(currentName, currentPrice, currentType, currentID));
             }
         } finally {
             cursor.close();
@@ -161,6 +160,30 @@ public class DataBaseDbHelper extends SQLiteOpenHelper {
 
         long newRowID = mDataBaseItems.insert(ItemsData.TABLE_USERS, null, values);
 
+    }
+
+    public void deleteItem(int id) {
+        mDataBaseItems = getWritableDatabase();
+        mDataBaseItems.delete(ItemsData.TABLE_ITEMS,
+                ItemsData._ID + "=?", new String[] {Integer.toString(id)});
+    }
+
+    public int dataBaseSize(){
+        mDataBaseItems = getReadableDatabase();
+        String [] projection = {
+                ItemsData._ID,
+        };
+
+        Cursor cursor = mDataBaseItems.query(
+                ItemsData.TABLE_ITEMS,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        return cursor.getCount();
     }
 
     public static final String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + ItemsData.TABLE_ITEMS + " ("

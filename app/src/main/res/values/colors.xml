@@ -8,4 +8,5 @@
     <color name="colorCardView">#c2c2c2</color>
     <color name="colorCardViewPrice">#645f62</color>
     <color name="colorAppBar">#6b020202</color>
+    <color name="colorSelected">#bf5d29</color>
 </resources>

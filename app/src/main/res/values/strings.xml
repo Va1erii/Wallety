@@ -29,4 +29,13 @@
     <string name="hint_item_price">1000 $</string>
     <string name="toast_isEmpty">The item\'s name or item\'s price cannot be empty</string>
     <string name="confirm">confirm</string>
+    <string name="delete">Delete</string>
+
+    <string name="positive_button">OK</string>
+    <string name="negative_button">Cancel</string>
+    <string name="title_dialog">Wallety</string>
+    <string name="message_remove">Do you want to remove these items?</string>
+    <string name="message_exit">Do you want to exit?</string>
+    <string name="message_change_passcode">Do you want to change passcode?</string>
+
 </resources>

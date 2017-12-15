@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.valeriipopov.wallety.R;
 import com.valeriipopov.wallety.Item;
+import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -25,12 +26,15 @@ public class AddActivity extends AppCompatActivity {
     private ImageButton mAddButton;
     private String mType;
     private Item mItem;
+    private DataBaseDbHelper mDataBaseDbHelper;
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        mDataBaseDbHelper = new DataBaseDbHelper(getApplicationContext());
 
         mToolbar = findViewById(R.id.toolbar_add_activity);
         mToolbar.setTitle("Add item");
@@ -58,7 +62,10 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void addItem() {
-        mItem = new Item(mItemName.getText().toString(), Integer.parseInt(mItemPrice.getText().toString()), mType);
+        mItem = new Item(mItemName.getText().toString(),
+                Integer.parseInt(mItemPrice.getText().toString()),
+                mType,
+                mDataBaseDbHelper.dataBaseSize()+1);
         Intent intent = new Intent();
         intent.putExtra(RESULT_ITEM, mItem);
         setResult(RESULT_OK, intent);

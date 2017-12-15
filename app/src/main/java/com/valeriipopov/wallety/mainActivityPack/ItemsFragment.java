@@ -11,7 +11,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -71,7 +75,7 @@ public class ItemsFragment extends Fragment {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddActivity.class);
+                Intent intent = new Intent(getContext(), AddActivity.class);
                 intent.putExtra(EXTRA_TYPE, mType);
                 startActivityForResult(intent, RC_ADD_ITEM);
             }
@@ -88,6 +92,7 @@ public class ItemsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 mDataBaseDbHelper.loadItems(mType, mItemsList);
+                mAdapter.notifyDataSetChanged();
                 mRefreshLayout.setRefreshing(false);
             }
         });
@@ -107,6 +112,6 @@ public class ItemsFragment extends Fragment {
             mAdapter.notifyDataSetChanged();
         }
     }
-
-
 }
+
+

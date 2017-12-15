@@ -12,10 +12,11 @@ public class Item implements Serializable {
     private String mType;
     private int mId;
 
-    public Item (String name, double price, String type) {
+    public Item (String name, double price, String type, int id) {
         mName = name;
         mPrice = price;
         mType = type;
+        mId = id;
     }
 
     public String getName() {
