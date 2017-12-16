@@ -1,8 +1,7 @@
 package com.valeriipopov.wallety.authorizationActivityPack;
 
-import android.content.ContentValues;
+
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +38,7 @@ public class NewUserActivity extends AppCompatActivity {
                     toast.show();
                 }
                 else {
-                    mDataBaseDbHelper.addNewPasscode(mPassCode);
+                    mDataBaseDbHelper.addNewPasscode(mPassCode.getText().toString());
                     NewUserActivity.this.finish();
                 }
             }

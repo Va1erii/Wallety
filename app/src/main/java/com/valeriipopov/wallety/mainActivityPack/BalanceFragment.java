@@ -1,7 +1,5 @@
 package com.valeriipopov.wallety.mainActivityPack;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,10 +16,8 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.valeriipopov.wallety.Item;
 import com.valeriipopov.wallety.R;
-import com.valeriipopov.wallety.data.DataBaseContract;
 import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
 import java.text.NumberFormat;

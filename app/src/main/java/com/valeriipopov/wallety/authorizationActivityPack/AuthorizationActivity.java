@@ -1,8 +1,6 @@
 package com.valeriipopov.wallety.authorizationActivityPack;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,7 +15,6 @@ import com.valeriipopov.wallety.data.DataBaseDbHelper;
 import java.util.ArrayList;
 
 public class AuthorizationActivity extends AppCompatActivity {
-    public static final String PASSCODE_WRONG = "wrong";
 
     private char[] mUserCode = new char[5];
     private int count = 0;

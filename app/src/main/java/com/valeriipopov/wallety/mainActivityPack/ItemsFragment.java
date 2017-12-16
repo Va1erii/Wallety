@@ -1,9 +1,6 @@
 package com.valeriipopov.wallety.mainActivityPack;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,18 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.valeriipopov.wallety.Item;
 import com.valeriipopov.wallety.addActivityPack.AddActivity;
 import com.valeriipopov.wallety.R;
-import com.valeriipopov.wallety.data.DataBaseContract.*;
 import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
 import java.util.ArrayList;
@@ -91,14 +83,14 @@ public class ItemsFragment extends Fragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mDataBaseDbHelper.loadItems(mType, mItemsList);
+                mItemsList = mDataBaseDbHelper.loadItems(mType);
                 mAdapter.notifyDataSetChanged();
                 mRefreshLayout.setRefreshing(false);
             }
         });
 
         mDataBaseDbHelper = new DataBaseDbHelper(getContext());
-        mDataBaseDbHelper.loadItems(mType, mItemsList);
+        mItemsList = mDataBaseDbHelper.loadItems(mType);
         mAdapter.setItems(mItemsList);
     }
 
