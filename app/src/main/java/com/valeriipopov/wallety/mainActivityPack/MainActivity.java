@@ -76,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
             mTabLayout.setupWithViewPager(mViewPager);
             // If isLogin is true, we fill MainActivity
         }
+        else if (mDataBaseDbHelper.getUserPassCode().equals("")) {
+            startActivity(new Intent(this, NewUserActivity.class));
+            // Because MainActivity is launcher activity we check password
+            // If database hasn't user's password we go to NewUserActivity
+        }
         else {
             startActivityForResult(new Intent(this, AuthorizationActivity.class), RC_CODE);
             // If isLogin is false, we start AuthorizationActivity for result
