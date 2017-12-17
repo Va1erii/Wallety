@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.valeriipopov.wallety.R;
 import com.valeriipopov.wallety.data.DataBaseDbHelper;
+import com.valeriipopov.wallety.mainActivityPack.MainActivity;
 
 import java.util.ArrayList;
 
@@ -71,6 +72,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         // add click listener for each buttons
 
         mPassCode = findViewById(R.id.pass_code);
+        mPassCode.setFocusable(false);
 
         mDataBaseDbHelper = new DataBaseDbHelper(getApplicationContext());
         mUserPassCode = mDataBaseDbHelper.getUserPassCode();

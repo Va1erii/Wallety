@@ -21,7 +21,7 @@ import com.valeriipopov.wallety.data.DataBaseDbHelper;
  */
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final int RC_AUTH = 444;
     private Toolbar mToolbar;
     private ViewPager mViewPager;
     private MyPagerAdapter mPagerAdapter;
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, AuthorizationActivity.class));
             // If database has user's password we go to AuthorizationActivity
         }
-
     }
 
     @Override
