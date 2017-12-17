@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             startActivityForResult(new Intent(this, AuthorizationActivity.class), RC_CODE);
-            // If database has user's password we go to AuthorizationActivity
+            // If database has user's password we start AuthorizationActivity for result
     }
 
     @Override
@@ -62,9 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
                 mViewPager.setAdapter(mPagerAdapter);
                 mTabLayout.setupWithViewPager(mViewPager);
-                // This method protect us when user try to back from AuthorizationActivity
-                // If database has user's password we go to AuthorizationActivity
-                // and fill MainActivity
+                // If result is true, we fill MainActivity
             }
         }
     }
@@ -76,13 +74,11 @@ public class MainActivity extends AppCompatActivity {
             mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
             mViewPager.setAdapter(mPagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
-            // This method protect us when user try to back from AuthorizationActivity
-            // If database has user's password we go to AuthorizationActivity
-            // and fill MainActivity
+            // If isLogin is true, we fill MainActivity
         }
         else {
             startActivityForResult(new Intent(this, AuthorizationActivity.class), RC_CODE);
-            // If database has user's password we go to AuthorizationActivity
+            // If isLogin is false, we start AuthorizationActivity for result
         }
     }
 
