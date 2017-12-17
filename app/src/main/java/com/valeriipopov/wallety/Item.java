@@ -2,6 +2,10 @@ package com.valeriipopov.wallety;
 
 import java.io.Serializable;
 
+/**
+ * Item class is description our items and separate them by types: expense, income or unknown
+ */
+
 public class Item implements Serializable {
     public static final String TYPE_EXPENSE = "expense";
     public static final String TYPE_INCOME = "income";

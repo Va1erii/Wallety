@@ -16,6 +16,10 @@ import com.valeriipopov.wallety.authorizationActivityPack.AuthorizationActivity;
 import com.valeriipopov.wallety.authorizationActivityPack.NewUserActivity;
 import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
+/**
+ * MainActivity show us our fragments and check does database have user's password
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
@@ -39,9 +43,12 @@ public class MainActivity extends AppCompatActivity {
         mDataBaseDbHelper = new DataBaseDbHelper(getApplicationContext());
         if (mDataBaseDbHelper.getUserPassCode().equals("")) {
             startActivity(new Intent(this, NewUserActivity.class));
+            // Because MainActivity is launcher activity we check password
+            // If database hasn't user's password we go to NewUserActivity
         }
         else {
             startActivity(new Intent(this, AuthorizationActivity.class));
+            // If database has user's password we go to AuthorizationActivity
         }
 
     }
@@ -53,9 +60,13 @@ public class MainActivity extends AppCompatActivity {
             mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
             mViewPager.setAdapter(mPagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
+            // This method protect us when user try to back from AuthorizationActivity
+            // If database has user's password we go to AuthorizationActivity
+            // and fill MainActivity
         }
         else {
             startActivity(new Intent(this, NewUserActivity.class));
+            // If database hasn't user's password we go to NewUserActivity
         }
     }
 
@@ -73,9 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 mDataBaseDbHelper.mDataBaseItems.execSQL(mDataBaseDbHelper.SQL_DELETE_USERS_TABLE);
                 mDataBaseDbHelper.mDataBaseItems.execSQL(mDataBaseDbHelper.SQL_CREATE_USERS_TABLE);
                 startActivity(new Intent(this, NewUserActivity.class));
+                // Change the password. We delete the user password's table and create a new table
+                // when we put a new password into the table
                 return true;
             case R.id.exit:
                 MainActivity.this.finish();
+                // Exit from application
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

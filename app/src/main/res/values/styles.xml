@@ -10,7 +10,16 @@
         <item name="windowActionBar">false</item>
         <item name="actionModeBackground">@color/colorCardViewPrice</item>
         <item name="actionModeCloseButtonStyle">@style/ActionCloseButton</item>
+        <item name="actionModeStyle">@style/ActionModeStyle</item>
 
+    </style>
+
+    <style name="ActionModeStyle" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="titleTextStyle">@style/ActionModeTitleTextStyle</item>
+    </style>
+
+    <style name="ActionModeTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="MyAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -19,7 +28,6 @@
 
     <style name="ActionCloseButton" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
         <item name="tint">@android:color/white</item>
-
 
     </style>
 

@@ -24,6 +24,11 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BalanceFragment show us our balance. I used a pieChart from this github's repository
+ * com.github.PhilJay:MPAndroidChart:v3.0.3
+ */
+
 public class BalanceFragment extends Fragment {
 
     private TextView mSumExpence;
@@ -35,6 +40,7 @@ public class BalanceFragment extends Fragment {
     private int mBalanceValue;
     private SwipeRefreshLayout mRefreshLayout;
     private List <Integer> mColorsList = new ArrayList<>();
+    // ColorList is list of color for pie chart
 
     private ArrayList<PieEntry> mPieChartValues;
     private PieDataSet mPieChartdataSet;
@@ -46,6 +52,7 @@ public class BalanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_balance, container, false);
         return view;
+        // We draw our interface (Fragment_balance_layout) and return the view
     }
 
     @Override
@@ -65,20 +72,24 @@ public class BalanceFragment extends Fragment {
             public void onRefresh() {
                 loadItemsBalance();
                 mRefreshLayout.setRefreshing(false);
+                // Add refresh listener our swipe. When we swipe items are loading from database
             }
         });
 
+        /**
+         * PieChart is Android chart view / graph view library, supporting line- bar- pie- radar-
+         * bubble- and candlestick charts as well as scaling, dragging and animations.
+         * More information about this library on link below
+         * https://github.com/PhilJay/MPAndroidChart
+         */
         mPieChart = view.findViewById(R.id.pie_chart);
-
         mPieChart.setUsePercentValues(true);
         mPieChart.getDescription().setEnabled(false);
         mPieChart.setExtraOffsets(5, 5, 5, 5);
         mPieChart.setDragDecelerationFrictionCoef(0.1f);
-
         mPieChart.setDrawHoleEnabled(false);
         mPieChart.setHoleColor(Color.WHITE);
         mPieChart.setTransparentCircleRadius(61f);
-
         mPieChart.animateY(500, Easing.EasingOption.EaseInCubic);
 
         mPieChartValues = new ArrayList<>();
@@ -97,6 +108,8 @@ public class BalanceFragment extends Fragment {
     }
 
     private void loadItemsBalance(){
+        // Load item's expense and income total values. Then we consider a balance
+        // Add the values into TextViews and PieChart
         mTotalExpense = mDataBaseDbHelper.loadTotalValuesForBalance(Item.TYPE_EXPENSE);
         mTotalIncome = mDataBaseDbHelper.loadTotalValuesForBalance(Item.TYPE_INCOME);
         mBalanceValue = mTotalIncome - mTotalExpense;
@@ -109,8 +122,5 @@ public class BalanceFragment extends Fragment {
             mPieChartValues.add(new PieEntry((float) (mTotalIncome/ 100), getResources().getText(R.string.tab_income).toString() + ", %"));
             mPieChart.setData(mPieChartdata);
         }
-
     }
-
-
 }

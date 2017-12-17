@@ -14,6 +14,10 @@ import com.valeriipopov.wallety.data.DataBaseDbHelper;
 
 import java.util.ArrayList;
 
+/**
+ * AuthorizationActivity class. This class compare our password to password in SQL database
+ */
+
 public class AuthorizationActivity extends AppCompatActivity {
 
     private char[] mUserCode = new char[5];
@@ -64,12 +68,13 @@ public class AuthorizationActivity extends AppCompatActivity {
         mButtonsList.add(mButton8);
         mButtonsList.add(mButton9);
         addClickListener();
+        // add click listener for each buttons
 
         mPassCode = findViewById(R.id.pass_code);
-        mPassCode.setFocusableInTouchMode(false);
 
         mDataBaseDbHelper = new DataBaseDbHelper(getApplicationContext());
         mUserPassCode = mDataBaseDbHelper.getUserPassCode();
+        // we get password from the database
 
         mButtonDelete = findViewById(R.id.button_delete);
         setClickDeleteButtonListener(mButtonDelete);
@@ -85,12 +90,15 @@ public class AuthorizationActivity extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+        // If we click back button on phone, we exit from this app, if we not have this method
+        // we can use back button and turn to MainActivity, but it is not right
     }
 
     public void addClickListener() {
         for (Button btn: mButtonsList) {
             clickButton (btn);
         }
+        // add click listener for List <Button>
     }
 
     public void clickButton(final Button button){
@@ -102,23 +110,29 @@ public class AuthorizationActivity extends AppCompatActivity {
                     mUserCode[count] = ch;
                     mPassCode.setText(mUserCode, 0, count+1);
                     count++;
+                    // we check our symbol's count, if count < 4 we add symbol to TextView
+                    // count should be less than 4, because fifth symbol is last
                 }
                 else {
                     char ch = button.getText().charAt(0);
                     mUserCode[count] = ch;
                     mPassCode.setText(mUserCode, 0, count+1);
+                    // if count == 4, we add the last symbol to TextView and compare password to password from
+                    // database
 
                     if (mUserPassCode.equals(String.copyValueOf(mUserCode))) {
                         Toast toast = Toast.makeText(getApplicationContext(), "COMPLETE", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
                         AuthorizationActivity.this.finish();
+                        // if passwords is the same we show Toast COMPLETE and finish AuthorizationActivity
                     }
                     else {
                         Toast toast = Toast.makeText(getApplicationContext(), "WRONG", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
                         mButtonCancel.callOnClick();
+                        // if passwords is not equal, we clear TextView and show Toast WRONG
                     }
                 }
             }
@@ -133,6 +147,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             mPassCode.setText("");
             }
         });
+        // This method clear out TextView
     }
 
     public void setClickDeleteButtonListener(final Button button){
@@ -145,7 +160,6 @@ public class AuthorizationActivity extends AppCompatActivity {
                 }
             }
         });
+        // This method delete one symbol from TextView
     }
-
-
 }

@@ -6,6 +6,10 @@ import android.support.v7.widget.CardView;
 
 import com.valeriipopov.wallety.R;
 
+/**
+ * CardView is our item's card
+ */
+
 public class CardViewActivity extends AppCompatActivity {
     CardView mCardView;
 
