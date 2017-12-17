@@ -20,7 +20,6 @@ import java.util.ArrayList;
  */
 
 public class AuthorizationActivity extends AppCompatActivity {
-
     private char[] mUserCode = new char[5];
     private int count = 0;
     private String mUserPassCode ;
@@ -126,6 +125,9 @@ public class AuthorizationActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(getApplicationContext(), "COMPLETE", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
+                        Intent intent = new Intent();
+                        intent.putExtra(MainActivity.AUTH, true);
+                        setResult(RESULT_OK, intent);
                         AuthorizationActivity.this.finish();
                         // if passwords is the same we show Toast COMPLETE and finish AuthorizationActivity
                     }

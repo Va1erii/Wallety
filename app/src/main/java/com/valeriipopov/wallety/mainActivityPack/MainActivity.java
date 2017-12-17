@@ -21,7 +21,9 @@ import com.valeriipopov.wallety.data.DataBaseDbHelper;
  */
 
 public class MainActivity extends AppCompatActivity {
-    public static final int RC_AUTH = 444;
+    public static final int RC_CODE = 555;
+    public static final String AUTH = "authorization";
+    private boolean isLogin = false;
     private Toolbar mToolbar;
     private ViewPager mViewPager;
     private MyPagerAdapter mPagerAdapter;
@@ -46,16 +48,31 @@ public class MainActivity extends AppCompatActivity {
             // Because MainActivity is launcher activity we check password
             // If database hasn't user's password we go to NewUserActivity
         }
-        else {
-            startActivity(new Intent(this, AuthorizationActivity.class));
+        else
+            startActivityForResult(new Intent(this, AuthorizationActivity.class), RC_CODE);
             // If database has user's password we go to AuthorizationActivity
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_CODE && resultCode == RESULT_OK){
+            if (data.getBooleanExtra(AUTH, false)) {
+                isLogin = true;
+                mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
+                mViewPager.setAdapter(mPagerAdapter);
+                mTabLayout.setupWithViewPager(mViewPager);
+                // This method protect us when user try to back from AuthorizationActivity
+                // If database has user's password we go to AuthorizationActivity
+                // and fill MainActivity
+            }
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!mDataBaseDbHelper.getUserPassCode().equals("")) {
+        if (isLogin) {
             mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getResources());
             mViewPager.setAdapter(mPagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
@@ -64,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
             // and fill MainActivity
         }
         else {
-            startActivity(new Intent(this, NewUserActivity.class));
-            // If database hasn't user's password we go to NewUserActivity
+            startActivityForResult(new Intent(this, AuthorizationActivity.class), RC_CODE);
+            // If database has user's password we go to AuthorizationActivity
         }
     }
 
