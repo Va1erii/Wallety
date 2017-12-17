@@ -1,0 +1,2 @@
+# Wallety
+Your money manager
